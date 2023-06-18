@@ -14,8 +14,8 @@ const Dashboard = ({
   profile: { profile }
 }) => {
   useEffect(() => {
-    getCurrentProfile();
-  }, [getCurrentProfile]);
+    getCurrentProfile(user);
+  }, [getCurrentProfile,user]);
 
   return (
     <section className="container">

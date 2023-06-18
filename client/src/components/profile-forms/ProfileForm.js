@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
+import _ from 'lodash';
 import { Link, useMatch, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -10,18 +11,21 @@ import { createProfile, getCurrentProfile } from '../../actions/profile';
   we can then safely use this to construct our profileData
  */
 const initialState = {
-  company: '',
-  website: '',
-  location: '',
-  status: '',
-  skills: '',
-  githubusername: '',
-  bio: '',
-  twitter: '',
-  facebook: '',
-  linkedin: '',
-  youtube: '',
-  instagram: ''
+  first_name: '',
+  last_name: '',
+  phone: '',
+  city: '',
+  country: '',
+  about_me: '',
+  gender: '',
+  date_of_birth: {
+    day : "",
+    month : "",
+    year : ""
+  },
+  interests: '',
+  level: '',
+  profession: '',
 };
 
 const ProfileForm = ({
@@ -60,18 +64,17 @@ const ProfileForm = ({
   }, [loading, getCurrentProfile, profile]);
 
   const {
-    company,
-    website,
-    location,
-    status,
-    skills,
-    githubusername,
-    bio,
-    twitter,
-    facebook,
-    linkedin,
-    youtube,
-    instagram
+    first_name,
+    last_name,
+    phone,
+    city,
+    country,
+    about_me,
+    gender,
+    date_of_birth,
+    interests,
+    level,
+    profession,
   } = formData;
 
   const onChange = (e) =>
@@ -99,6 +102,123 @@ const ProfileForm = ({
       <small>* = required field</small>
       <form className="form" onSubmit={onSubmit}>
         <div className="form-group">
+          <input
+            type="text"
+            placeholder="First Name"
+            name="first_name"
+            value={first_name}
+            onChange={onChange}
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Last Name"
+            name="last_name"
+            value={last_name}
+            onChange={onChange}
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Phone Number"
+            name="phone"
+            value={phone}
+            onChange={onChange}
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="City"
+            name="city"
+            value={city}
+            onChange={onChange}
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Country"
+            name="country"
+            value={country}
+            onChange={onChange}
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="About Me"
+            name="about_me"
+            value={about_me}
+            onChange={onChange}
+          />
+        </div>
+        <div className="form-group">
+        <label> Gender : </label>
+          <input
+            type="radio"
+            name="gender"
+            value="male"
+            onChange={onChange}
+          /> Male  
+                  <input
+            type="radio"
+            name="gender"
+            value="female"
+            onChange={onChange}
+          /> Female
+        </div>
+        <div className="form-group">
+          <label>Date Of Birth</label>
+          <select name="date_of_birth.day" onChange={onChange} style={{width:'100px',display:'inline',margin: "0px 10px"}}>
+          <option value="">DD</option>
+          { _.range(1, 31 + 1).map(value => <option key={value} value={value}>{value}</option>) }
+          </select>
+          <select name="date_of_birth.month" onChange={onChange} style={{width:'100px',display:'inline',margin: "0px 10px"}}>
+          <option value="">MM</option>
+          { _.range(1, 12 + 1).map(value => <option key={value} value={value}>{value}</option>) }
+          </select>
+          <select name="date_of_birth.year" onChange={onChange} style={{width:'100px',display:'inline',margin: "0px 10px"}}>
+          <option value="">YYYY</option>
+          { _.range(1990, 2020).map(value => <option key={value} value={value}>{value}</option>) }
+          </select>
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Interests"
+            name="interests"
+            value={interests}
+            onChange={onChange}
+          />
+          <small className="form-text">
+            Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)
+          </small>
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Level"
+            name="level"
+            value={level}
+            onChange={onChange}
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Profession"
+            name="profession"
+            value={profession}
+            onChange={onChange}
+          /> <small className="form-text">
+            Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)
+          </small>
+        </div>
+    {/*    <div className="form-group">
+
           <select name="status" value={status} onChange={onChange}>
             <option>* Select Professional Status</option>
             <option value="Developer">Developer</option>
@@ -253,7 +373,7 @@ const ProfileForm = ({
               />
             </div>
           </Fragment>
-        )}
+        )} */}
 
         <input type="submit" className="btn btn-primary my-1" />
         <Link className="btn btn-light my-1" to="/dashboard">

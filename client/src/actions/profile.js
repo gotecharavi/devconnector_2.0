@@ -20,14 +20,16 @@ import {
 */
 
 // Get current users profile
-export const getCurrentProfile = () => async (dispatch) => {
+export const getCurrentProfile = (email) => async (dispatch) => {
   try {
-    const res = await api.get('/profile/me');
+    const res = await api.post('/get-user',{"email" : email});
 
-    dispatch({
-      type: GET_PROFILE,
-      payload: res.data
-    });
+    if(res.data.status== true){
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data.user
+      });
+    }
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,

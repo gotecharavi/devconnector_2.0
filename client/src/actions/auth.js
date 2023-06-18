@@ -18,9 +18,9 @@ import {
 */
 
 // Load User
-export const loadUser = () => async (dispatch) => {
+export const loadUser = (email) => async (dispatch) => {
   try {
-    const res = await api.get('/auth');
+    const res = await api.post('/get-user',{email : email});
 
     dispatch({
       type: USER_LOADED,
@@ -36,7 +36,7 @@ export const loadUser = () => async (dispatch) => {
 // Register User
 export const register = (formData) => async (dispatch) => {
   try {
-    const res = await api.post('/users', formData);
+    const res = await api.post('/register', formData);
 
     dispatch({
       type: REGISTER_SUCCESS,
@@ -61,14 +61,23 @@ export const login = (email, password) => async (dispatch) => {
   const body = { email, password };
 
   try {
-    const res = await api.post('/auth', body);
+    const res = await api.post('/login', body);
+      if(res.data.status == true){
+        dispatch({
+          type: LOGIN_SUCCESS,
+          payload: res.data
+        });
 
-    dispatch({
-      type: LOGIN_SUCCESS,
-      payload: res.data
-    });
+        dispatch(loadUser(res.data.user.email));
 
-    dispatch(loadUser());
+      }else{
+        dispatch(setAlert(res.data.message, 'danger'));
+        dispatch({
+          type: LOGIN_FAIL
+        });
+
+      }
+
   } catch (err) {
     const errors = err.response.data.errors;
 

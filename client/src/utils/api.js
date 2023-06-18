@@ -4,7 +4,7 @@ import { LOGOUT } from '../actions/types';
 
 // Create an instance of axios
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: process.env.REACT_APP_MY_ENVIRONMENT_VARIABLE+'/',
   headers: {
     'Content-Type': 'application/json'
   }
@@ -16,7 +16,6 @@ const api = axios.create({
  authenticated.
  logout the user if the token has expired
 */
-
 api.interceptors.response.use(
   (res) => res,
   (err) => {
